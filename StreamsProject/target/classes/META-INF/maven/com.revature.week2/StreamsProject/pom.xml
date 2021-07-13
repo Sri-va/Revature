@@ -10,4 +10,5 @@
         <junit.jupiter.version>5.7.2</junit.jupiter.version>
         <junit.platform.version>1.7.2</junit.platform.version>
     </properties>
+    
 </project>
