@@ -5,75 +5,116 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
-
+import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.Consumes;
-import javax.ws.rs.FormParam;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
-
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
+import javax.ws.rs.container.ResourceContext;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.example.restservice.CorsFilter;
+
+class Emp {
+	private String name;
+	private String password;
+	
+	public Emp() {}
+	
+	public Emp(String name, String password) {
+		this.name = name;
+		this.password = password;
+	}
+	
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	public String getPassword() {
+		return password;
+	}
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	@Override
+	public String toString() {
+		return "Emp [name=" + name + ", password=" + password + "]";
+	}
+}
 
 @Path("mycontroller")
 public class MyController {
 
-	@GET
-    @Path("/hello")
-    @Produces(MediaType.TEXT_PLAIN)
-	public String getHello() {
-        return "Hello From Controller";
+	
+
+    @Path("/test")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Test gethello() {
+        return new Test();
 	}
 	
 	@POST
 	@Path("/forms")
-	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-	@Produces(MediaType.TEXT_PLAIN)
-	public String PostForm(@FormParam("username") String name,@FormParam("password") String password) {
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public String PostForm(String data) {
 		try {
 			
-			Class.forName("org.postgresql.Driver");
-			Connection conn=DriverManager.getConnection("jdbc:postgresql://database-1.czhcku1df67r.us-east-2.rds.amazonaws.com/Employee"
-					,"postgres","Srivatsan123");
-			PreparedStatement preps=conn.prepareStatement("INSERT INTO EMPLOYEE(id,name,password) VALUES(6,?,?)");
-			preps.setString(1, name);
-			preps.setString(2,password);
-			int row=preps.executeUpdate();
-			System.out.println("Row :"+row);
-			if(row==0)
-				return "Not Executed";
+//			Class.forName("org.postgresql.Driver");
+//			Connection conn=DriverManager.getConnection("jdbc:postgresql://database-1.czhcku1df67r.us-east-2.rds.amazonaws.com/Employee"
+//					,"postgres","Srivatsan123");
+//			PreparedStatement preps=conn.prepareStatement("SELECT name FROM employee WHERE password=?");
+//			preps.setString(1, password);
+//			ResultSet rs=preps.executeQuery();
+//			
+			System.out.println("hello -> " + data);
+			ObjectMapper obj=new ObjectMapper();
+			Emp e=obj.readValue(data, Emp.class);
+			System.out.println(e.getName());
+//			System.out.println(rs.getFetchSize());
+//			if(rs.getFetchSize()==0)
+//			HttpServletResponse response = null;
+//			response.sendRedirect("RestExample02/webapi/mycontroller/getform");
+				return obj.writeValueAsString(e.getName());
 		}catch(Exception e) {
 			e.printStackTrace();
 		}
-		return "Executed";
+		
+		return "Incorrect";
+		
 	}
 	
-	@POST
-	@Path("/update")
-	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-	@Produces(MediaType.TEXT_PLAIN)
-	public String UpdateForm(@FormParam("username") String name,@FormParam("password") String password, @FormParam("id") int id) {
+	@PUT
+	@Path("/update/{id}")
+	//@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+	@Produces(MediaType.APPLICATION_JSON)
+	public String UpdateForm(@PathParam("id") int id) {
 		try {
 			Class.forName("org.postgresql.Driver");
 			Connection conn=DriverManager.getConnection("jdbc:postgresql://database-1.czhcku1df67r.us-east-2.rds.amazonaws.com/Employee"
 					,"postgres","Srivatsan123");
 			PreparedStatement preps=conn.prepareStatement("UPDATE employee SET name= ?, password= ? WHERE id = ?");
-			preps.setString(1, name);
-			preps.setString(2,password);
+			preps.setString(1, "Test");
+			preps.setString(2,"Update");
 			preps.setInt(3, id);
 			int row=preps.executeUpdate();
 			System.out.println("Row :"+row);
-			if(row==0)
-				return "Not Executed";
+			ObjectMapper obj=new ObjectMapper();
+			if(row>0)
+				return obj.writeValueAsString("Done");
 		}catch(Exception e) {
 			e.printStackTrace();
 		}
-		return "Executed";
+		return "Not Executed";
 	}
 	
 
@@ -100,13 +141,13 @@ public class MyController {
 		}catch(Exception e) {
 			e.printStackTrace();
 		}
-		return "Executed";
+		return "Executed get";
     }
 	
-	@GET
-    @Path("/deleteform")
-    @Produces(MediaType.TEXT_PLAIN)
-    public String deleteform(@QueryParam("id") int num) {
+	@DELETE
+    @Path("/deleteform/{id}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public String deleteform(@PathParam("id") int num) {
 		try {
 			Class.forName("org.postgresql.Driver");
 			Connection conn=DriverManager.getConnection("jdbc:postgresql://database-1.czhcku1df67r.us-east-2.rds.amazonaws.com/Employee"

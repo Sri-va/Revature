@@ -3,7 +3,7 @@ package com.example.restservice;
 public class MyClass {
     private String firstname,lastname;
     public MyClass(String firstname, String lastname) {
-        super();
+        
         this.firstname=firstname;
         this.lastname=lastname;
     }

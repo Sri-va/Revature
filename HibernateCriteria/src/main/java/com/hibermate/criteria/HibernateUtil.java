@@ -1,6 +1,5 @@
 package com.hibermate.criteria;
 
-
 import java.util.Properties;
 
 import org.hibernate.SessionFactory;
@@ -9,7 +8,11 @@ import org.hibernate.cfg.Configuration;
 import org.hibernate.cfg.Environment;
 import org.hibernate.service.ServiceRegistry;
 
+import com.example.mapping.Address;
+import com.example.mapping.Employeee;
 import com.hibernate.mapping.otm.binary.*;
+
+import net.bytebuddy.implementation.bytecode.Addition;
 
 
 public class HibernateUtil {
@@ -34,6 +37,8 @@ public class HibernateUtil {
                 configuration.addAnnotatedClass(Item.class);
                 configuration.addAnnotatedClass(Employee.class);
                 configuration.addAnnotatedClass(Department.class);
+                configuration.addAnnotatedClass(Employeee.class);
+                configuration.addAnnotatedClass(Address.class);
                 
                 ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder()
                     .applySettings(configuration.getProperties()).build();

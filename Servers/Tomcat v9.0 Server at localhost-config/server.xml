@@ -153,7 +153,7 @@
              Note: The pattern used is equivalent to using pattern="common" -->
         <Valve className="org.apache.catalina.valves.AccessLogValve" directory="logs" pattern="%h %l %u %t &quot;%r&quot; %s %b" prefix="localhost_access_log" suffix=".txt"/>
 
-      <Context docBase="RestExample" path="/RestExample" reloadable="true" source="org.eclipse.jst.jee.server:RestExample"/><Context docBase="MyWebApp" path="/MyWebApp" reloadable="true" source="org.eclipse.jst.jee.server:MyWebApp"/><Context docBase="RestExample02" path="/RestExample02" reloadable="true" source="org.eclipse.jst.jee.server:RestExample02"/><Context docBase="AWSWebApp" path="/AWSWebApp" reloadable="true" source="org.eclipse.jst.jee.server:AWSWebApp"/></Host>
+      <Context docBase="RestExample" path="/RestExample" reloadable="true" source="org.eclipse.jst.jee.server:RestExample"/><Context docBase="MyWebApp" path="/MyWebApp" reloadable="true" source="org.eclipse.jst.jee.server:MyWebApp"/><Context docBase="RestExample02" path="/RestExample02" reloadable="true" source="org.eclipse.jst.jee.server:RestExample02"/><Context docBase="AWSWebApp" path="/AWSWebApp" reloadable="true" source="org.eclipse.jst.jee.server:AWSWebApp"/><Context docBase="SpringMVC" path="/SpringMVC" reloadable="true" source="org.eclipse.jst.jee.server:SpringMVC"/><Context docBase="SpringForms" path="/SpringForms" reloadable="true" source="org.eclipse.jst.jee.server:SpringForms"/></Host>
     </Engine>
   </Service>
 </Server>
